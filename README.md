@@ -153,3 +153,57 @@ $$
 Keterangan :
 - **CO₂ Reduction** = total emisi CO₂ yang berhasil dikurangi (dalam ton)
 - **Investment Cost** = jumlah biaya investasi proyek (dalam miliar rupiah)
+
+Task 
+MergeEnvironmental_Dataset.xlsx andFinancial_Dataset.xlsx using Project_ID
+hasil :
+
+```
+       Project_ID  CO2_Reduction  Energy_Output  Environmental_Risk_Index  \
+0    PLTS-NTT-001          75000          25000                        45   
+1  PLTM-SUMUT-001          30000          10000                        60   
+2  PLTS-JATIM-001          90000          30000                        30   
+3   PLTM-KALB-001          35000          12000                        55   
+4   PLTS-SULS-001          60000          20000                        40   
+5   PLTM-PAPU-001          40000          15000                        70   
+6    PLTS-NTB-001          80000          28000                        35   
+7   PLTM-ACHD-001          32000          11000                        65   
+8   PLTS-JABW-001          95000          32000                        25   
+9   PLTM-SULU-001          36000          13000                        50   
+
+                                 Konteks_Lingkungan Peringkat_Dampak  \
+0  Sumba: radiasi matahari tinggi, rawan kekeringan       High: 🌿🌿🌿🌿   
+1        Tapanuli: banjir musiman, debit air stabil      Medium: 🌿🌿🌿   
+2         Surabaya: risiko rendah, efisiensi tinggi      High: 🌿🌿🌿🌿🌿   
+3         Kalbar: rawan banjir, hutan lindung dekat      Medium: 🌿🌿🌿   
+4             Makassar: cuaca stabil, risiko sedang       High: 🌿🌿🌿🌿   
+5                  Papua: gempa tinggi, akses sulit      Medium: 🌿🌿🌿   
+6           Lombok: risiko rendah, pariwisata hijau       High: 🌿🌿🌿🌿   
+7                 Aceh: banjir musiman, sungai kuat      Medium: 🌿🌿🌿   
+8              Bandung: cuaca ideal, risiko minimal      High: 🌿🌿🌿🌿🌿   
+9               Sulut: gempa sedang, debit air baik      Medium: 🌿🌿🌿   
+
+   Investment_Cost  Revenue_Stream  Debt_Ratio  Payment_Delay  \
+...
+6          PLTS di Lombok, didukung pariwisata hijau  Medium: ★★★☆☆  
+7                  PLTM di Aceh, akses sungai stabil     Low: ★★☆☆☆  
+8    PLTS di Bandung, pasar besar, keterlambatan PLN    High: ★★★★☆  
+9        PLTM di Sulawesi Utara, dukungan lokal baik  Medium: ★★★☆☆  
+Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
+```
+Task 2
+ • ForPLTSprojects(Project_ID starts with "PLTS"), compute the ratio: CO2_Reduction  / (Investment_Cost * 1_000_000).
+ • Use if-else to classify the ratio as "High" (≥ 0.5 tons CO2e/million Rp) or "Low"  (< 0.5).
+ • Display results as: "Project_ID: Ratio (Category)" using f-strings.
+
+```
+for idx, row in merged_df.iterrows():
+  if str(row['Project_ID']).startswith('PLTS'):
+      ratio = row['CO2_Reduction']/(row['Investment_Cost'] * 1_000_000)
+      if ratio >= 0.5:
+        desc = 'High'
+      else:
+        desc = 'Low'
+      print(f'{row["Project_ID"]}: {ratio} ({desc}) ')
+```
+
